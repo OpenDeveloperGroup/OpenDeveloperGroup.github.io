@@ -79,7 +79,15 @@
   
   
     
-    
+   # 정리
+     1) java nio 서버 / 클라이언트 구현 ByteBuffer 이해
+     2) Netty ByteBuf 와 zero copy  , 왜 flip함수가 필요 없어 졌을까?
+     3) Netty 이벤트 모델에 대한 이해 ( select 함수 실행 위치)
+     4) epoll 방식의 이해
+     5) codec 종류 및 protobuf 사용 예제
+     6) http server 개발 실습
+     
+     
     
     
    
