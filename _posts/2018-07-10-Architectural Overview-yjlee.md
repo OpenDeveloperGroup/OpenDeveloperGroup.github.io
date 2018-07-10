@@ -54,4 +54,32 @@
     - 수만 개의 타사 웹 서비스에 비동기 적으로 연결되는 확장 가능한 매시업 클라이언트
     
     ### 2.4.4. Google Protocol Buffer Integration
+    
+    
+    
+    
+    *** 매우 궁금함
+  
+    아래 코드에서 null을 리턴하면 수신받을 패킷이 부족하다고 생각하고
+    기다리는 로직 코드를 보고 
+  
+    public class TimeDecoder extends FrameDecoder {
+
+    @Override
+    protected Object decode(
+            ChannelHandlerContext ctx, Channel channel, ChannelBuffer buffer) {
+            
+        if (buffer.readableBytes() < 4) {
+            return null; 
+        }
+        
+        return buffer.readBytes(4);
+    }
+  }
+  
+  
+    
+    
+    
+    
    
