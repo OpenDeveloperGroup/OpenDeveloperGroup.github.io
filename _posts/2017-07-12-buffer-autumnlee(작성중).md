@@ -107,3 +107,11 @@ So don't try to reason about it, just study and use the API carefully.
 
     }
 ```
+
+
+```
+궁금한점
+1. buffer 가 사용하는 메모리는 제한되어 있는데, index 를 어떻게 관리할까?
+2. netty 의 buffer pool
+```
+
