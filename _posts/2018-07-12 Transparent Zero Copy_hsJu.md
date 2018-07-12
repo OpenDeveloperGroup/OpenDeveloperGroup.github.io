@@ -19,7 +19,7 @@ User와 Kernel 사이의 Context Switching을 줄이는 작업들 중 하나가 
 
 아래는 일반적인 작업 과정입니다.
 
-![traditional architec](https://opendevelopergroup.github.io/assets/hsJu/traditional.JPG)
+![traditional architec](https://opendevelopergroup.github.io/assets/hsJu/traditional.JPG)  
 
 ![traditional ContextSwitching]
 (https://opendevelopergroup.github.io/assets/hsJu/traditionalCS.JPG)
