@@ -1,9 +1,12 @@
 ---
-layout: page
+layout: post
 title: Transparent Zero Copy
 author: "Hanseok Ju"
-permalink: /
-tags: architecture
+tags: 
+  - architecture
+  - Netty
+  - zero_copy
+categories: Hanseok
 ---
 
 # *Transparent Zero Copy In Netty.* (작성중)

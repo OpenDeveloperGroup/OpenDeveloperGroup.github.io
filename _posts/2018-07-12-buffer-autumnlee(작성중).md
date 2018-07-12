@@ -1,9 +1,12 @@
 ---
-layout: page
-title: buffer - autumnlee
+layout: post
+title: Channel Buffer
 author: "autumnlee"
-categories: Netty
-tags: Netty
+tags: 
+  - Netty
+  - NIO
+  - Buffer
+categories: Autumn
 ---
 
 # Channel Buffer
@@ -15,10 +18,9 @@ tags: Netty
 일시적으로 그 데이터를 보관하는 일종의 메모리 영역이다.
 buffering이라 함은 buffer를 채우는 동작을 일컷는 말로서 유사어로 Queue가 있다.
 
-출처: http://lucrative.tistory.com/83 [Lucrative]
+출처: http://lucrative.tistory.com/83 [Lucrative]  
 
 
-#
 
 ### Java 의 ByteBuffer
 - java.nio 에서 제공되는 class
@@ -27,9 +29,9 @@ buffering이라 함은 buffer를 채우는 동작을 일컷는 말로서 유사�
   capacity : Buffer 에 저장할 수 있는 최대크기
   position : Buffer 를 읽고(쓰고) 있는 현재 위치. 초기값은 0 이며 읽고 쓸때마다 증가된다. limit 와 capacity 를 넘을 수 없다.
   limit : 읽고 쓸수있는 공간의 최대값. 변경이 가능하지만 capacity 보다 크게 지정될 수는 없다.
- ```
+ ```  
 
-#
+
 
 - flip 메소드
 

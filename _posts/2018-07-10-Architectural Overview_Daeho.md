@@ -1,9 +1,11 @@
 ---
-layout: page
+layout: post
 title: Architectural Overview
 author: "Daeho Han"
-permalink: /
-tags: architecture
+tags: 
+ - architecture
+ - Netty
+categories: Daeho
 ---
 
 # Chapter 2. 아키텍쳐 개요

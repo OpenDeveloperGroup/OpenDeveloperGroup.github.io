@@ -1,3 +1,13 @@
+---
+layout: post
+title: Epoll Server
+author: "yjlee"
+tags: 
+ - select
+ - epoll
+ - Netty
+categories: Yjlee
+---
 
 # select i/o 통지 
 
@@ -12,6 +22,7 @@
   select는 read/ write/ error 3가지 I/O에 대한 통지를 받는다. 또한 select에 timeout을 설정하여 대기시간을 설정할 수 있다. 
   signature 는 다음과 같다.
   
+  ```
   int select( int maxfdNum, //파일 디스크립터의 관찰 범위 (0 ~ maxfdNum -1)
             fd_set *restrict readfds, //read I/O를 통지받을 FD_SET의 주소, 없으면 NULL
             fd_set *restrict writefds,//write I/O를 통지받을 FD_SET의 주소, 없으면 NULL
@@ -19,11 +30,13 @@
             struct timeval *restrict timeout //null이면 변화가 있을 때까지 계속 Block, 
                                              //아니면 주어진 시간만큼 대기후 timeout.
            );  
-  
+  ```
+
   ## 샘플
-  
+
+```
  struct timeval timeout; //타임 아웃에 사용할 timeval 변수 fd_set reads, cpy_reads; //read용 FD_SET과 그 사본을 저장할 변수 int fd_max = 0, fd_num = 0; //관찰 범위, 변경된 fd 개수 ... FD_ZERO(&reads); //reads초기화 FD_SET(server_sock, &reads); //server_socket 등록 max_fd = server_socket; //server_socket부터 관찰 범위에 추가 while(TRUE){ cpy_reads = reads; //FD_SET보존을 위한 복사 timeout.tv_sec = 5; //time out 값 설정 timeout.tv_usec = 5000; fd_num = select(fd_max + 1, &cpy_reads, 0, 0, &timeout); //FD_SET사본으로 select 호출 if(fd_num == -1) break; //에러 if(fd_num == 0) continue; //timeout for(int fd = 0; fd < fd_max + 1 ; ++fd) { if(FD_ISSET(fd, &cpy_reads)) //fd가 준비 완료 { if(i == server_socket) //fd가 서버인 경우  { //accpet 처리 (FD_SET으로 등록할 것) } else //fd가 클라이언트 세션인 경우 { //recv및 closesocket 처리 (FD_CLR로 삭제할 것) } } } close(server_socket); return 0;
- 
+ ```
  
  ## 한계
  select가 모든 fd를 순회하면서 recv()를 호출하는 방법보다는 훨씬 잘 구현된 멀티플렉싱인 것은 자명하다. 하지만 만들어진지 오래되다보니 그 한계점이 뚜렷하다. 동작 환경에 따라 다르지만 일반적으로 검사할 수 있는 fd개수가 최대 1024개로 제한된다. 그리고 관찰 영역에 포함되는 모든 파일 디스크립터에 대해서 순회하면서 한번씩 FD_ISSET으로 체크하는 것도 불필요한 체크인것 처럼 보인다. 실제로 상태가 변화된 fd의 목록을 넘겨준다면 더 빠르게 작동할 수 있지 않을까?
@@ -40,7 +53,7 @@
   
   
   ## 샘플
-  
+  ```
   int epoll_fd = epoll_create(EPOLL_SIZE); 
   struct epoll_event* events = malloc(sizeof(struct epoll_event)*EPOLL_SIZE); 
   struct epoll_event init_event; init_event.events = EPOLLIN; 
@@ -57,7 +70,7 @@
     { //read, write, closesocket처리 } } 
   } 
   closesocket(server_socket); close(epoll_fd); return 0;
-
+```
 
  ## epoll 정리
 epoll은 select의 단점을 많이 개선한 형태의 통지방식이다. FD_SET을 운영체제가 직접 관리하는 것으로 많은 부분이 개선되었다. 하지만 그 본질적인 동작 구조는 select와 크게 다르지 않다. 프로세스가 커널에게 지속적으로 I/O 상황을 체크하여 동기화 하는 개념은 여전히 유효하다. 따라서 epoll의 통지모델 역시 동기형 통지모델이다
