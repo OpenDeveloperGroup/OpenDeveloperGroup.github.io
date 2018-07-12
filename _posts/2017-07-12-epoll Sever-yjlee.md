@@ -53,7 +53,8 @@
     { //accept 처리  ... init_event.events = EPOLLIN; 
     init_event.data.fd = new_client_socket; 
     epoll_ctl(epoll_fd, EPOLL_CTL_ADD, new_client_socket, &init_event); 
-    } else //이벤트가 도착한 소켓들 { //read, write, closesocket처리 } } 
+    } else //이벤트가 도착한 소켓들 
+    { //read, write, closesocket처리 } } 
   } 
   closesocket(server_socket); close(epoll_fd); return 0;
 
@@ -67,6 +68,32 @@ epoll은 select의 단점을 많이 개선한 형태의 통지방식이다. FD_S
 
 
 
+
+
+# 정리
+
+
+## select
+특징으로는 
+  - 등록된 file descriptor를 하나하나 체크를 해야하고 커널과 유저 공간 사이에 여러번의 데이터 복사가 있음.
+  - 관리 file descriptor 수에 제한이 있음.
+  - 사용 쉽고 지원 OS가 많아 이식성 좋음.
+
+file descriptor를 하나 하나에 체크하기 때문에 O(n)의 계산량이 필요합니다. 따라서 관리하는 file descriptor의 수가 증가하면 성능이 떨어진다. 
+또한 관리 수가 한정되어 있기 때문에 그 수를 초과하면 사용할 수 없다.
+
+## poll
+ poll은 거의 select와 동일하지만 다음과 같은 차이가 있다.
+- 관리 file descriptor 무제한.
+- 좀더 low level의 처리로 system call의 호출이 select보다 적음. 이식성 나쁨.
+- 접속수가 늘어나면 오히려 fd당 체크 마스크의 크기가 select는 3bit인데 비해, poll은 64bit정도이므로 양이 많아지면 성능이 select보다 떨어짐.
+
+## epoll
+ linux커널 2.6.x이상 버전에만 지원되고 특징은 다음과 같다.
+- 관리 fd의 수는 무제한.
+- select, poll과 달리, fd의 상태가 kernel 에서 관리됨.
+- 일일이 fd 세트를 kernel 에 보낼 필요가 없음.
+- kernel이 fd를 관리하고 있기 때문에 커널과 유저스페이스 간의 통신 오버헤드가 대폭 줄어듬.
 
 
 
