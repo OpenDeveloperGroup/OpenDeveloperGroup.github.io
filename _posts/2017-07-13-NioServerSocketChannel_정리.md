@@ -67,7 +67,7 @@
    
    
    ## 시퀀스 다이어그램
-   !(https://github.com/OpenDeveloperGroup/OpenDeveloperGroup.github.io/assets/NioServerSocketChannel_Sequence.png)
+   ![](https://github.com/OpenDeveloperGroup/OpenDeveloperGroup.github.io/assets/NioServerSocketChannel_Sequence.png)
    
     
     
