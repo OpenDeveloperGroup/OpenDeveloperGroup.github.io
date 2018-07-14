@@ -66,6 +66,8 @@
 
    
    
+   ## 시퀀스 다이어그램
+   ![](https://opendevelopergroup.github.io/assets/NioServerSocketChannel_Sequence.png)
    
     
     
