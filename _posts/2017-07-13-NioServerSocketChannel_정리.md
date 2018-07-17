@@ -71,3 +71,70 @@
    
     
     
+    
+    
+    
+    
+    # 함수 call  순서
+    
+    --> 
+    private static java.nio.channels.ServerSocketChannel newSocket(SelectorProvider provider) {
+    try {
+        return provider.openServerSocketChannel();
+    } catch (IOException var2) {
+        throw new ChannelException("Failed to open a server socket.", var2);
+    }
+    
+    
+    --> 생성자 호출  : ServerSocketChannel 리턴   :
+    public NioServerSocketChannel() {
+    this(newSocket(DEFAULT_SELECTOR_PROVIDER));
+    }
+    
+    
+    public abstract class ServerSocketChannel
+    extends AbstractSelectableChannel
+    implements NetworkChannel
+
+    
+    --> 생성자
+    public NioServerSocketChannel(java.nio.channels.ServerSocketChannel channel) {
+    super((Channel)null, channel, 16);
+    this.config = new NioServerSocketChannel.NioServerSocketChannelConfig(this, this.javaChannel().socket());
+    }
+    
+    
+    -->
+    protected AbstractNioChannel(Channel parent, SelectableChannel ch, int readInterestOp) {
+    super(parent);
+    this.ch = ch;
+    this.readInterestOp = readInterestOp;
+    try {
+        ch.configureBlocking(false);
+    } catch (IOException e) {
+        try {
+            ch.close();
+        } catch (IOException e2) {
+            if (logger.isWarnEnabled()) {
+                logger.warn(
+                        "Failed to close a partially initialized socket.", e2);
+            }
+        }
+
+        throw new ChannelException("Failed to enter non-blocking mode.", e);
+    }
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
