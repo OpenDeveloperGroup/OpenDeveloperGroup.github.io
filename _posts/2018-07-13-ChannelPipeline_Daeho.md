@@ -1,6 +1,6 @@
 ---
 layout: page
-title: ChannelPipeline 정리
+title: ChannelPipeline 정리-1
 author: "Daeho Han"
 permalink: /archives
 tags: pattern
@@ -76,3 +76,65 @@ p.addLast("5", new InboudOutboundHandlerX()));
 ```
 위와 같이 추가해주면 pipeline에는 inbound시에는 1,2,3,4,5순으로 outbound시에는 5,4,3,2,1 순으로 작동하게 되지만
 inbound 시에는 실제로 1,2,5번 handler만 작동하고 outbound시에는 5,4,3이 작동하게 된다.
+
+-- 2018.07.17
+### *다음 Handler로 이벤트 전달*
+위의 그림에서 알 수 있듯이, 다른 handler로 이벤트를 전달하기 위해서 *ChannelHandlerContext*의 이벤트 전파 메소드들을 호출해야만 한다. 
+
+- Inbound 이벤트 전파 메소드 : 
+  - ChannelHandlerContext.fireChannelRegistered()
+  - ChannelHandlerContext.fireChannelActive()
+  - ChannelHandlerContext.fireChannelRead(Object)
+  - ChannelHandlerContext.fireChannelReadComplete()
+  - ChannelHandlerContext.fireExceptionCaught(Throwable)
+  - ChannelHandlerContext.fireUserEventTriggered(Object)
+  - ChannelHandlerContext.fireChannelWritabilityChanged()
+  - ChannelHandlerContext.fireChannelInactive()
+  - ChannelHandlerContext.fireChannelUnregistered()
+- Outbound 이벤트 전파 메소드 : 
+  - ChannelHandlerContext.bind(SocketAddress, ChannelPromise)
+  - ChannelHandlerContext.connect(SocketAddress, SocketAddress, ChannelPromise)
+  - ChannelHandlerContext.write(Object, ChannelPromise)
+  - ChannelHandlerContext.flush()
+  - ChannelHandlerContext.read()
+  - ChannelHandlerContext.disconnect(ChannelPromise)
+  - ChannelHandlerContext.close(ChannelPromise)
+  - ChannelHandlerContext.deregister(ChannelPromise) 
+예시는 아래와 같다
+
+```java
+  public class MyInboundHandler extends ChannelInboundHandlerAdapter {
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) {
+      System.out.println("Connected!");
+      ctx.fireChannelActive();
+    }
+  }
+
+  public class MyOutboundHandler extends ChannelOutboundHandlerAdapter {
+    @Override
+    public void close(ChannelHandlerContext ctx, ChannelPromise promise) {
+      System.out.println("Closing ...");
+      ctx.close(promise);
+    }
+  }
+```
+
+### *pipeline 만들기*
+ user는 I/O 명령(e.g. write and close)을 요청하거나 I/O 이벤트(e.g. read)를 받기위해서는 pipeline에 하나이상의 *ChannelHandler*를 가지고 있어야 한다. 
+일반적인 서버는 다음과 같은 핸들러들을 가지고 있는다. 
+1. Protocol Decoder - binary 데이터를 Java 객체로 변환(e.g. ByteBuf)
+2. Protocol Encoder - Java 객체를 binary 데이터로 변환
+3. Business Logic Handler - 실제 비즈니스 로직을 수행 (e.g. db 접근)
+그리고 이에 따른 예제는 다음과 같습니다.
+
+```java
+static final EventExecutorGroup group = new DefaultEventExecutorGroup(16);
+...
+ChannelPipeline pipeline = ch.pipeline();
+
+pipeline.addLast("decoder", new MyProtocolDecoder());
+pipeline.addLast("encoder", new MyProtocolEncoder());
+
+pipeline.addLAst(group, "handler", new MyBusinessLogicHandler())
+```
