@@ -1,8 +1,8 @@
 ---
 layout: page
-title: ChannelPipeline 정리-1
+title: ChannelPipeline 정리
 author: "Daeho Han"
-permalink: /archives
+permalink: /Archives
 tags: pattern
 ---
 
