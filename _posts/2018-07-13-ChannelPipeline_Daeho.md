@@ -135,6 +135,6 @@ ChannelPipeline pipeline = ch.pipeline();
 
 pipeline.addLast("decoder", new MyProtocolDecoder());
 pipeline.addLast("encoder", new MyProtocolEncoder());
-
-pipeline.addLAst(group, "handler", new MyBusinessLogicHandler())
+...
+pipeline.addLast(group, "handler", new MyBusinessLogicHandler());
 ```
