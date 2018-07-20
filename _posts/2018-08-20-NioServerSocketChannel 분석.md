@@ -54,7 +54,7 @@
    
    
    ### 변경 결과 출력
- ![테스트구성](https://opendevelopergroup.github.io/assets/테스트프로그램.png)
+ ![변경결과](https://opendevelopergroup.github.io/assets/변경결과.png)
 
 
 
