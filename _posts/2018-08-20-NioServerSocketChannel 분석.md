@@ -32,6 +32,24 @@
    
    ### netty source log 추가
    
+   public class NioServerSocketChannel extends AbstractNioMessageChannel
+                             implements io.netty.channel.socket.ServerSocketChannel {
+
+    private static final ChannelMetadata METADATA = new ChannelMetadata(false, 16);
+    private static final SelectorProvider DEFAULT_SELECTOR_PROVIDER = SelectorProvider.provider();
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(NioServerSocketChannel.class);
+    private static ServerSocketChannel newSocket(SelectorProvider provider) {
+
+        System.out.println("##################################### newSocket ############################################");
+        System.out.println("##################################### newSocket ############################################");
+        System.out.println("##################################### newSocket ############################################");
+        System.out.println("##################################### newSocket ############################################");
+        System.out.println(" #################  provider : " + provider + "###########################################");
+        System.out.println(" #####################################################################################");
+   
+   
+   
+   
    
    
 
