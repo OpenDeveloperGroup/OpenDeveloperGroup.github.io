@@ -16,10 +16,13 @@
    
    
    ### 소스 프로젝트 포팅
+   ![빌드환경구성](https://opendevelopergroup.github.io/assets/빌드환경.png)
    
    
    ### 빌드
    clean package -Dmaven.test.skip=true -Dcheckstyle.skip=true
+
+    ![빌드환경구성](https://opendevelopergroup.github.io/assets/테스트프로그램.png)
 
 
    ### package 파일 
