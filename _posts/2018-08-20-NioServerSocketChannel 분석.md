@@ -54,10 +54,7 @@
    
    
    ### 변경 결과 출력
-   
-   
-   
-      
+ ![변경결과](https://opendevelopergroup.github.io/assets/변경결과.png)
 
 
 
