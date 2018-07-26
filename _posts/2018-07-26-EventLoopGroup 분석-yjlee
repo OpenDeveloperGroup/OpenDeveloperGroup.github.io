@@ -7,3 +7,15 @@
   MultithreadEventExecutorGroup -> MultithreadEventExecutorGroup(int nThreads, Executor executor, EventExecutorChooserFactory chooserFactory, Object... args)
        --> public DefaultThreadFactory(Class<?> poolType)
        
+       
+ ###1. 이벤트 루프 그룹
+   (EventLoopGroup )
+
+   특별한 EventExecutorGroup 은 이벤트 루프동안 마지막 selection을 처리하는것을 얻는 채널 등록을 허용합니다.
+  
+   1) EventLoop next
+   2) ChannelFuture registoer(Channel channel)
+      이 EventLoop에 채널을 등록하십시오. 등록이 완료되면 반환 된 ChannelFuture에 알림이 전송됩니다.
+   3) ChannelFuture register(ChannelPromise promise)
+      ChannelFuture를 사용하여이 EventLoop에 채널을 등록하십시오. 전달 된 ChannelFuture는 등록이 완료되면 알림을 받게되며 반환됩니다
+       
