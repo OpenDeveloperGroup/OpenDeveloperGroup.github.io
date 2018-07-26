@@ -1,74 +1,9 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2. EventExecutorGroup
-
- 생명주기를 유지하고 글로벌 방식으로 차단할 수 있습니다
- 생명주기를 유지하고 글로벌 방식으로 차단할 수 있습니다
- 생명주기를 유지하고 글로벌 방식으로 차단할 수 있습니다
-
-
-3. ScheduledExecutorService
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## 0. 실행 순서
+   NettyServer -> NioEventLoopGroup -> MultiThreadEventLoopGroup -> MultithreadEventExecutorGroup -> NioEventLoopGroup
+  -> NioEventLoop -> WindowSelectorProvider -> WindowSelectorImpl  --> 생략 --> ServerSocketChannelImpl(bind)
+                       --> 생략 --> NioEventLoop( openSelector) --> WindowSelectorImpl  --> --> ServerSocketChannelImpl(accept
+                       
+                    
+  MultithreadEventExecutorGroup -> MultithreadEventExecutorGroup(int nThreads, Executor executor, EventExecutorChooserFactory chooserFactory, Object... args)
+       --> public DefaultThreadFactory(Class<?> poolType)
+       
