@@ -1,0 +1,29 @@
+What is the Future
+
+: java.util.concurrent 패키지에 들어있는 interface
+: The result of an asynchronous operation.
+
+
+What is the ChannelFuture
+: 비동기 I/O 작업은 I/O 작업이 끝날때까지 기다리는 것이 아니다. 
+: I/O 작업을 요청하면 즉각적으로 ChannelFuture 객체가 리턴되는데 추후에 I/O작업의 상태 확인용인듯?
+
+
+ex) async channel 예시
+
+Future result = channel.read(buffer, 0); // position = 0
+			
+        while (! result.isDone()) {
+			
+            System.out.println("Do something else while reading is in progress... ");
+        }
+
+        
+        
+ex) netty echo client 예시
+
+            // Start the client.
+            ChannelFuture f = b.connect(HOST, PORT).sync();
+
+            // Wait until the connection is closed.
+            f.channel().closeFuture().sync();
